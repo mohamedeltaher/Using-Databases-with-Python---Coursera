@@ -44,7 +44,7 @@ got from the previous course.
 """
 
 import sqlite3
-import urllib
+import urllib.request , urllib.parse , urllib.error
 
 #Connecting to the file in which we want to store our db
 conn = sqlite3.connect('emaildb.sqlite')
@@ -60,7 +60,7 @@ CREATE TABLE Counts (org TEXT, count INTEGER)''')
 
 #Indicating the file (URL in this case) from where we'll read the data
 fname = "http://www.pythonlearn.com/code/mbox.txt"
-fh = urllib.urlopen(fname)
+fh = urllib.request.urlopen(fname)
 
 #Reading each line of the file
 for line in fh:
@@ -70,7 +70,7 @@ for line in fh:
     pieces = line.split()
     email = pieces[1]
     (emailname, organization) = email.split("@")
-    print email
+    print (email)
 
     #Updating the table with the correspondent information
     cur.execute('SELECT count FROM Counts WHERE org = ? ', (organization, ))
@@ -90,7 +90,7 @@ conn.commit()
 # Getting the top 10 results and showing them
 sqlstr = 'SELECT org, count FROM Counts ORDER BY count DESC LIMIT 10'
 print
-print "Counts:"
+print ("Counts:")
 for row in cur.execute(sqlstr) :
     print str(row[0]), row[1]
 
